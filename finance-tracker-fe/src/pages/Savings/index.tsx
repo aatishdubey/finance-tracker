@@ -14,7 +14,7 @@ import { ModalProps } from "../../components/Modal/types";
 export const Savings = () => {
   const [showAddSavings, setShowAddSavings] = useState(false);
   const token = useIdToken();
-  const { isLoading, data: queryData } = useQuery<ISavingsData[]>('savings', () =>
+  const { data: queryData } = useQuery<ISavingsData[]>('savings', () =>
     fetch(`${API_BASE_URL}/savings`, {
       headers: {
         Authorization: `Bearer ${token}`

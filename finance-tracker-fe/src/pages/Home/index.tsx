@@ -11,7 +11,7 @@ import { ModalProps } from '../../components/Modal/types';
 export function Dashboard() {
   const [showAddBudget, setShowAddBudget] = useState(false);
   const token = useIdToken();
-  const { isLoading, data: queryData } = useQuery<IBudgetData>('budgets', () =>
+  const { data: queryData } = useQuery<IBudgetData>('budgets', () =>
     fetch(`${API_BASE_URL}/budgets`, {
       headers: {
         Authorization: `Bearer ${token}`

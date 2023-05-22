@@ -1,4 +1,4 @@
-import { Space, Table, Row, Col, Statistic, Button, Modal } from "antd";
+import { Table, Row, Col, Statistic, Button, Modal } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import { useState } from "react";
 import { useQuery } from "react-query";
@@ -11,8 +11,6 @@ import { IExpenseEarningData, IInvestmentData } from "../../api/types";
 import { calculateTotal } from "../../utils/calculate";
 import { ModalProps } from "../../components/Modal/types";
 import { calculateTotalThisMonth } from "../../utils/calculate";
-
-
 
 export const Investments = () => {
   const [showAddInvestment, setShowAddInvestment] = useState(false);
@@ -45,7 +43,7 @@ export const Investments = () => {
     },
   });
 
-  const columns: ColumnsType<IInvestmentData> = [
+  const columns: ColumnsType<{name: string;date: string;}> = [
     {
       title: "Name",
       dataIndex: "name",

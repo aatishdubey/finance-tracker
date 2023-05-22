@@ -14,7 +14,7 @@ import { ModalProps } from "../../components/Modal/types";
 export const Earnings = () => {
   const [showAddEarnings, setShowAddEarnings] = useState(false);
   const token = useIdToken();
-  const { isLoading, data: queryData } = useQuery<IExpenseEarningData[]>('earnings', () =>
+  const { data: queryData } = useQuery<IExpenseEarningData[]>('earnings', () =>
     fetch(`${API_BASE_URL}/earnings`, {
       headers: {
         Authorization: `Bearer ${token}`
