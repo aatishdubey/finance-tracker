@@ -2,6 +2,9 @@
 
 This repository contains a finance tracker application that helps you manage your finances. It consists of both server-side and client-side code. The server side uses Firebase Cloud Firestore for the database and has REST API endpoints built with Express. The frontend is a React app built using Ant Design for components, Firebase for authentication, React-Query for data fetching, and TypeScript. The client-side code is bundled using Vite.
 
+# LIVE DEMO
+https://finance-tracker-fe.onrender.com
+
 ## Features
 
 - Track your income and expenses
