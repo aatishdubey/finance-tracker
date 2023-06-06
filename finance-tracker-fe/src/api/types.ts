@@ -20,6 +20,14 @@ export interface IInvestmentData {
   amount: number;
   interest: number;
   duration: number;
-  payout: "monthly" | "yearly" | "quarterly";
+  payout: 'monthly' | 'yearly' | 'quarterly';
   date: string;
+}
+
+export enum QueryKeys {
+  EARNINGS = 'earnings',
+  EXPENSES = 'expenses',
+  BUDGETS = 'budgets',
+  INVESTMENTS = 'investments',
+  SAVINGS = 'savings',
 }
