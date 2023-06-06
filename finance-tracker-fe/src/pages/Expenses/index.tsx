@@ -1,120 +1,75 @@
-import { Table, Row, Col, Statistic, Button, Modal } from "antd";
-import type { ColumnsType } from "antd/es/table";
-import { useState } from "react";
-import { useQuery } from "react-query";
-import { API_BASE_URL, queryClient } from "../../api/config";
-import { useIdToken } from "../../state/user";
+import { Table, Row, Col, Statistic, Button } from 'antd';
+import { useState } from 'react';
+import { useQuery } from 'react-query';
+import { queryClient } from '../../api/config';
 import { useMutation } from 'react-query';
-import { formatDate } from "../../utils/date";
-import { AddExpensesForm } from "./AddExpensesForm";
-import { IExpenseEarningData } from "../../api/types";
-import { calculateTotalThisMonth, calculateTotalThisYear } from "../../utils/calculate";
-import { ModalProps } from "../../components/Modal/types";
+import { AddExpensesForm } from './AddExpensesForm';
+import { IExpenseEarningData, QueryKeys } from '../../api/types';
+import {
+  calculateTotalThisMonth,
+  calculateTotalThisYear,
+} from '../../utils/calculate';
+import { addExpenses, getExpenses } from '../../api/expenses';
+import { ModalWrapper } from '../../components/Modal';
+import { PageHeading } from '../../components/Blocks/PageHeading';
+import { formatTableData, generateColumns } from '../../utils/format';
 
 export const Expenses = () => {
   const [showAddExpenses, setShowAddExpenses] = useState(false);
-  const token = useIdToken();
-  const { data: queryData } = useQuery<IExpenseEarningData[]>('expenses', () =>
-    fetch(`${API_BASE_URL}/expenses`, {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    }).then(res =>
-      res.json()
-    )
-  )
-
-  const addExpenses = async (data: Omit<IExpenseEarningData, "key">) => {
-    await fetch(`${API_BASE_URL}/expenses`, {
-      method: "POST",
-      body: JSON.stringify(data),
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      }
-    });
-  };
+  const { data: queryData } = useQuery(QueryKeys.EXPENSES, getExpenses);
 
   const mutation = useMutation({
     mutationFn: addExpenses,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["expenses"] });
+      queryClient.invalidateQueries({ queryKey: [QueryKeys.EXPENSES] });
     },
   });
 
-  
-  const columns: ColumnsType<IExpenseEarningData> = [
-    {
-      title: "Name",
-      dataIndex: "name",
-      key: "name",
-    },
-    {
-      title: "Amount",
-      dataIndex: "amount",
-      key: "amount",
-    },
-    {
-      title: "Remarks",
-      dataIndex: "remarks",
-      key: "remarks",
-    },
-    {
-      title: "Date",
-      dataIndex: "date",
-      key: "date",
-      render: (_, record) => <span>{formatDate(record.date)}</span>
-    }
-  ];
-
   const handleSubmit = (values: unknown) => {
-    mutation.mutate(values as Omit<IExpenseEarningData, "key">);
+    mutation.mutate(values as Omit<IExpenseEarningData, 'key'>);
     setShowAddExpenses(false);
-  }
+  };
+
+  const columns = generateColumns(['name', 'amount', 'remarks', 'date']);
 
   return (
     <div>
-      <AddExpensesModal open={showAddExpenses} onClose={() => setShowAddExpenses(false)} onSubmit={handleSubmit}/>
+      <ModalWrapper
+        title="Add Expenses"
+        open={showAddExpenses}
+        onClose={() => setShowAddExpenses(false)}
+        onSubmit={handleSubmit}
+        formElement={AddExpensesForm}
+      />
       <Row gutter={16}>
-        <Col span={24}><h1>Expenses</h1></Col>
+        <PageHeading>Expenses</PageHeading>
         <Col span={12}>
-          <Statistic title="This Year (NPR)" value={calculateTotalThisYear(queryData || [])} />
+          <Statistic
+            title="This Year (NPR)"
+            value={calculateTotalThisYear(queryData || [])}
+          />
         </Col>
         <Col span={12}>
-          <Statistic title="This Month (NPR)" value={calculateTotalThisMonth(queryData || [])} precision={2} />
-          <Button style={{ marginTop: 16 }} type="primary" onClick={() => setShowAddExpenses(true)}>
+          <Statistic
+            title="This Month (NPR)"
+            value={calculateTotalThisMonth(queryData || [])}
+            precision={2}
+          />
+          <Button
+            style={{ marginTop: 16 }}
+            type="primary"
+            onClick={() => setShowAddExpenses(true)}
+          >
             Add Expenses
           </Button>
         </Col>
       </Row>
       <Row>
-        <Col span={24}><h1>History</h1></Col>
+        <PageHeading>History</PageHeading>
         <Col span={24}>
-          <Table columns={columns} dataSource={(queryData || []).map((item, index:number) => ({...item, key: index}))} />
+          <Table columns={columns} dataSource={formatTableData(queryData)} />
         </Col>
       </Row>
     </div>
   );
 };
-
-const AddExpensesModal = ({open, onClose, onSubmit} : ModalProps) => {
-  const [confirmLoading, setConfirmLoading] = useState(false);
-
-  const handleOk = (values: unknown) => {
-    setConfirmLoading(true);
-    onSubmit(values);
-    setConfirmLoading(false);
-  };
-
-  return (
-    <Modal
-        title="Add Expenses"
-        open={open}
-        onCancel={onClose}
-        okButtonProps={{ style: {display: "none"} }}
-        cancelButtonProps={{ style: {display: "none"} }}
-      >
-        <AddExpensesForm onSubmit={handleOk} confirmLoading={confirmLoading}/>
-      </Modal>
-  )
-}
