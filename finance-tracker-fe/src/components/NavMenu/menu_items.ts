@@ -1,7 +1,7 @@
 export default [
   {
     label: 'Dashboard',
-    link: '/'
+    link: '/',
   },
   {
     label: 'Earnings',
@@ -9,14 +9,14 @@ export default [
   },
   {
     label: 'Expenses',
-    link: '/expenses'
+    link: '/expenses',
   },
   {
     label: 'Savings',
-    link: '/savings'
+    link: '/savings',
   },
   {
     label: 'Investments',
-    link: '/investments'
-  }
-]
+    link: '/investments',
+  },
+];

@@ -1,6 +1,15 @@
-import { Form, Input, InputNumber, DatePicker, Radio, Button, Row, Col } from 'antd';
-import { useRef } from "react";
-import type { FormInstance } from "antd/es/form";
+import {
+  Form,
+  Input,
+  InputNumber,
+  DatePicker,
+  Radio,
+  Button,
+  Row,
+  Col,
+} from 'antd';
+import { useRef } from 'react';
+import type { FormInstance } from 'antd/es/form';
 
 export const AddInvestmentForm = ({
   onSubmit,
@@ -25,7 +34,7 @@ export const AddInvestmentForm = ({
       <Form.Item
         name="name"
         label="Name"
-        rules={[{ required: true, message: "Please input your name!" }]}
+        rules={[{ required: true, message: 'Please input your name!' }]}
       >
         <Input />
       </Form.Item>
@@ -35,7 +44,7 @@ export const AddInvestmentForm = ({
           <Form.Item
             name="amount"
             label="Amount"
-            rules={[{ required: true, message: "Please input the amount!" }]}
+            rules={[{ required: true, message: 'Please input the amount!' }]}
           >
             <InputNumber min={0} addonAfter="NPR" />
           </Form.Item>
@@ -44,7 +53,7 @@ export const AddInvestmentForm = ({
           <Form.Item
             name="interest"
             label="Interest"
-            rules={[{ required: true, message: "Please input the interest!" }]}
+            rules={[{ required: true, message: 'Please input the interest!' }]}
           >
             <InputNumber min={0} max={100} addonAfter="%" />
           </Form.Item>
@@ -53,7 +62,7 @@ export const AddInvestmentForm = ({
           <Form.Item
             name="duration"
             label="Duration"
-            rules={[{ required: true, message: "Please input the duration!" }]}
+            rules={[{ required: true, message: 'Please input the duration!' }]}
           >
             <InputNumber min={0} addonAfter="years" />
           </Form.Item>
@@ -63,7 +72,7 @@ export const AddInvestmentForm = ({
       <Form.Item
         name="payout"
         label="Payout"
-        rules={[{ required: true, message: "Please choose the payout!" }]}
+        rules={[{ required: true, message: 'Please choose the payout!' }]}
       >
         <Radio.Group>
           <Radio value="monthly">Monthly</Radio>
@@ -75,7 +84,7 @@ export const AddInvestmentForm = ({
       <Form.Item
         name="date"
         label="Date"
-        rules={[{ required: true, message: "Please select the date!" }]}
+        rules={[{ required: true, message: 'Please select the date!' }]}
       >
         <DatePicker format="YYYY-MM-DD" />
       </Form.Item>

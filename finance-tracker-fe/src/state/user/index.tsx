@@ -1,5 +1,6 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
 import { User, getAuth, onAuthStateChanged } from 'firebase/auth';
+import { httpApiInstance } from '../../api';
 
 type TUser = User | null;
 
@@ -10,12 +11,12 @@ interface IAuthContext {
 
 export const AuthContext = createContext<IAuthContext>({
   currentUser: null,
-  token: null
+  token: null,
 });
 
 type Props = {
   children: React.ReactNode;
-}
+};
 
 export const AuthProvider = ({ children }: Props) => {
   const [currentUser, setCurrentUser] = useState<TUser>(null);
@@ -23,12 +24,12 @@ export const AuthProvider = ({ children }: Props) => {
 
   useEffect(() => {
     const auth = getAuth();
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      if(user) {
+    const unsubscribe = onAuthStateChanged(auth, async user => {
+      if (user) {
         const token = await user.getIdToken();
         setUserToken(token);
+        httpApiInstance.setBearerToken(token);
       }
-      console.log(user);
       setCurrentUser(user);
     });
     return () => {

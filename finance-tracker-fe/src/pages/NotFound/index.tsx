@@ -1,5 +1,5 @@
-import { Link } from "react-router-dom";
-import { ErrorInformation } from "../../components/ErrorInfo";
+import { Link } from 'react-router-dom';
+import { ErrorInformation } from '../../components/ErrorInfo';
 
 export function NotFoundPage() {
   return (
@@ -9,7 +9,7 @@ export function NotFoundPage() {
         icon="😱"
         keepDefaultDescription={false}
         description={[
-          "This page does not exist",
+          'This page does not exist',
           <div className="text-xl">
             <strong>
               <div>

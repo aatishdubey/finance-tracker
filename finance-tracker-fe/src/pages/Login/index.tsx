@@ -1,9 +1,9 @@
-import { useNavigate, useSearchParams } from "react-router-dom";
-import { signInWithGoogle } from "../../utils/firebase";
-import { Button, Space, Alert, Modal } from "antd";
-import { BorderTopOutlined } from "@ant-design/icons";
-import { useEffect, useState } from "react";
-import { useIsAuthenticated } from "../../state/user";
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { signInWithGoogle } from '../../utils/firebase';
+import { Button, Space, Alert, Modal } from 'antd';
+import { BorderTopOutlined } from '@ant-design/icons';
+import { useEffect, useState } from 'react';
+import { useIsAuthenticated } from '../../state/user';
 
 export function Login() {
   const [error, setError] = useState<{
@@ -11,13 +11,13 @@ export function Login() {
     description: string;
   } | null>(null);
   const [searchParams] = useSearchParams();
-  const from = searchParams.get("from") || undefined;
+  const from = searchParams.get('from') || undefined;
   const navigate = useNavigate();
   const isAuthenticated = useIsAuthenticated();
 
   useEffect(() => {
     if (isAuthenticated) {
-      navigate(from || "/");
+      navigate(from || '/');
     }
   }, [isAuthenticated, from, navigate]);
 
@@ -25,11 +25,11 @@ export function Login() {
     const authResult = await signInWithGoogle();
     if (!authResult) {
       setError({
-        message: "Oops...",
-        description: "Something went wrong. Please try again later!",
+        message: 'Oops...',
+        description: 'Something went wrong. Please try again later!',
       });
     } else {
-      navigate(from || "/");
+      navigate(from || '/');
     }
   };
 
@@ -38,8 +38,8 @@ export function Login() {
       <Modal
         title="Login"
         open={true}
-        okButtonProps={{ style: {display: "none"} }}
-        cancelButtonProps={{ style: {display: "none"} }}
+        okButtonProps={{ style: { display: 'none' } }}
+        cancelButtonProps={{ style: { display: 'none' } }}
         closable={false}
       >
         {error && (
